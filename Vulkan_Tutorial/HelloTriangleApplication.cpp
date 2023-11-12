@@ -24,6 +24,8 @@ void HelloTriangleApplication::initVulkan()
 	createSurface();
 	selectPhysicalDevice();
 	createDevice();
+	createSwapChain();
+	createImageViews();
 }
 
 void HelloTriangleApplication::mainLoop()
@@ -36,6 +38,7 @@ void HelloTriangleApplication::mainLoop()
 
 void HelloTriangleApplication::cleanup()
 {
+	vkDestroySwapchainKHR(device, swapChain, nullptr);
 	vkDestroyDevice(device, nullptr);
 	vkDestroySurfaceKHR(instance, surface, nullptr);
 	vkDestroyInstance(instance, nullptr); // 一番最後に破棄するVulkanオブジェクト
@@ -332,4 +335,131 @@ SwapChainSupportDetails HelloTriangleApplication::querySwapChainSupport(VkPhysic
 	}
 
 	return details;
+}
+
+VkSurfaceFormatKHR HelloTriangleApplication::chooseSwapSurfaceFormat(const vector<VkSurfaceFormatKHR>& availableFormats)
+{
+	for (const auto& a : availableFormats)
+	{
+		if (a.format == VK_FORMAT_B8G8R8A8_SRGB && a.colorSpace == VK_COLORSPACE_SRGB_NONLINEAR_KHR)
+		{
+			return a;
+		}
+	}
+
+	return availableFormats[0];
+}
+
+VkPresentModeKHR HelloTriangleApplication::chooseSwapPresentMode(const vector<VkPresentModeKHR>& availablePresentModes)
+{
+	for (const auto& a : availablePresentModes)
+	{
+		if (a == VK_PRESENT_MODE_MAILBOX_KHR)
+		{
+			return a;
+		}
+	}
+
+	return VK_PRESENT_MODE_FIFO_KHR;
+}
+
+VkExtent2D HelloTriangleApplication::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
+{
+	if (capabilities.currentExtent.width != numeric_limits<uint32_t>::max())
+	{
+		return capabilities.currentExtent;
+	}
+	else
+	{
+		int width, height;
+		glfwGetFramebufferSize(window, &width, &height);
+
+		VkExtent2D actualExtent = {
+			static_cast<uint32_t> (width),
+			static_cast<uint32_t>(height)
+		};
+
+		actualExtent.width = clamp(actualExtent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+		actualExtent.height = clamp(actualExtent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+
+		return actualExtent;
+	}
+}
+
+void HelloTriangleApplication::createSwapChain()
+{
+	SwapChainSupportDetails swapChainSupport = querySwapChainSupport(physicalDevice);
+	VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
+	VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
+
+	uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
+
+	if (0 < swapChainSupport.capabilities.maxImageCount && swapChainSupport.capabilities.maxImageCount < imageCount)
+	{
+		imageCount = swapChainSupport.capabilities.maxImageCount;
+	}
+
+	VkSwapchainCreateInfoKHR swapchainCI{};
+	swapchainCI.flags = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+	swapchainCI.surface = surface;
+	swapchainCI.minImageCount = imageCount;
+	swapchainCI.imageFormat = surfaceFormat.format;
+	swapchainCI.imageColorSpace = surfaceFormat.colorSpace;
+	swapchainCI.imageExtent = extent;
+	swapchainCI.imageArrayLayers = 1;
+	swapchainCI.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+
+	QueueFamilyIndices indices = findQueueFamiles(physicalDevice);
+	uint32_t queueFamilyIndices[] = { indices.graphicsFamily.value(), indices.presentFamily.value() };
+
+	if (indices.graphicsFamily != indices.presentFamily)
+	{
+		swapchainCI.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+		swapchainCI.queueFamilyIndexCount = 2;
+		swapchainCI.pQueueFamilyIndices = queueFamilyIndices;
+	}
+	else
+	{
+		swapchainCI.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+		swapchainCI.queueFamilyIndexCount = 0;
+		swapchainCI.pQueueFamilyIndices = nullptr;
+	}
+	swapchainCI.preTransform = swapChainSupport.capabilities.currentTransform;
+	swapchainCI.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+	swapchainCI.presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
+	swapchainCI.clipped = VK_TRUE;
+	swapchainCI.oldSwapchain = VK_NULL_HANDLE;
+
+	if (vkCreateSwapchainKHR(device, &swapchainCI, nullptr, &swapChain) != VK_SUCCESS)
+	{
+		throw runtime_error("failed to create swap chain!");
+	}
+
+	// SwapChainImageを保存しておく
+	{
+		uint32_t count;
+		vkGetSwapchainImagesKHR(device, swapChain, &count, nullptr);
+		swapChainImages.resize(count);
+		vkGetSwapchainImagesKHR(device, swapChain, &count, swapChainImages.data());
+	}
+
+	swapChainImageFormat = surfaceFormat.format;
+	swapChainExtent = extent;
+}
+
+void HelloTriangleApplication::createImageViews()
+{
+	swapChainImageViews.resize(swapChainImages.size());
+	for (uint32_t i = 0; i < swapChainImages.size(); i++)
+	{
+		VkImageViewCreateInfo imageViewCI{};
+		imageViewCI.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		imageViewCI.image = swapChainImages[i];
+		imageViewCI.viewType = VK_IMAGE_VIEW_TYPE_2D;
+		imageViewCI.format = swapChainImageFormat;
+		imageViewCI.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCI.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCI.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCI.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+	}
 }

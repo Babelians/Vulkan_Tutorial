@@ -1,5 +1,6 @@
 #pragma once
 
+#define NOMINMAX // windows.hÇÃmin maxÉ}ÉNÉçÇÃñ≥å¯âª
 //#include <vulkan/vulkan.h>
 #define VK_USE_PLATFORM_WIN32_KHR
 #define GLFW_INCLUDE_VULKAN
@@ -10,10 +11,13 @@
 #include <iostream>
 #include <stdexcept>
 #include <cstdlib>
+#include <cstdint> //uint32_t
 #include <vector>
 #include <cstring>
 #include <optional>
 #include <set>
+#include <limits> // numeric_limit
+#include <algorithm> // clamp
 
 using namespace std;
 
@@ -59,12 +63,17 @@ private:
 	void selectPhysicalDevice();
 	void createDevice();
 	void createSurface();
+	void createSwapChain();
+	void createImageViews();
 
 	bool checkValidationLayerSupport();
 	bool isDeviceSuitable(VkPhysicalDevice pDevice);
 	bool checkDeviceExtensionSupport(VkPhysicalDevice pDevice);
 	QueueFamilyIndices findQueueFamiles(VkPhysicalDevice pDevice);
 	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice pDevice);
+	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const vector<VkSurfaceFormatKHR>& availableFormats);
+	VkPresentModeKHR chooseSwapPresentMode(const vector<VkPresentModeKHR>& availablePresentModes);
+	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
 	GLFWwindow* window;
 	VkInstance instance;
@@ -73,6 +82,11 @@ private:
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;
 	VkSurfaceKHR surface;
+	VkSwapchainKHR swapChain;
+	vector<VkImage> swapChainImages;
+	VkFormat swapChainImageFormat;
+	VkExtent2D swapChainExtent;
+	vector<VkImageView> swapChainImageViews;
 
 	vector<const char*> validationLayers = {
 		"VK_LAYER_KHRONOS_validation"
