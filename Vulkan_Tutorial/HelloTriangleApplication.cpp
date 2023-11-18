@@ -26,6 +26,7 @@ void HelloTriangleApplication::initVulkan()
 	createDevice();
 	createSwapChain();
 	createImageViews();
+	createGraphicsPipeline();
 }
 
 void HelloTriangleApplication::mainLoop()
@@ -38,6 +39,10 @@ void HelloTriangleApplication::mainLoop()
 
 void HelloTriangleApplication::cleanup()
 {
+	for (auto imageView : swapChainImageViews)
+	{
+		vkDestroyImageView(device, imageView, nullptr);
+	}
 	vkDestroySwapchainKHR(device, swapChain, nullptr);
 	vkDestroyDevice(device, nullptr);
 	vkDestroySurfaceKHR(instance, surface, nullptr);
@@ -461,5 +466,38 @@ void HelloTriangleApplication::createImageViews()
 		imageViewCI.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
 		imageViewCI.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
 		imageViewCI.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCI.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		imageViewCI.subresourceRange.baseMipLevel = 0;
+		imageViewCI.subresourceRange.levelCount = 1;
+		imageViewCI.subresourceRange.baseArrayLayer = 0;
+		imageViewCI.subresourceRange.layerCount = 1;
+
+		if (vkCreateImageView(device, &imageViewCI, nullptr, &swapChainImageViews[i]) != VK_SUCCESS)
+		{
+			throw std::runtime_error("failed to create image views!");
+		}
 	}
+}
+
+void HelloTriangleApplication::createGraphicsPipeline()
+{
+	auto vertShaderCode = readFile("shaders/vert.spv");
+	auto fragShaderCode = readFile("shaders/frag.spv");
+}
+
+VkShaderModule HelloTriangleApplication::createShaderModule(vector<char>& code)
+{
+	VkShaderModuleCreateInfo shaderModuleCI{};
+	shaderModuleCI.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+	shaderModuleCI.codeSize = code.size();
+	shaderModuleCI.pCode = reinterpret_cast<uint32_t*>(code.data());
+
+	VkShaderModule shaderModule;
+
+	if (vkCreateShaderModule(device, &shaderModuleCI, nullptr, &shaderModule) != VK_SUCCESS)
+	{
+		throw runtime_error("failed to create shader module!");
+	}
+
+	return shaderModule;
 }

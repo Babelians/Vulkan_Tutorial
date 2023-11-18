@@ -137,6 +137,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\shaders\compile.bat" />
+    <None Include="..\shaders\shader.frag" />
+    <None Include="..\shaders\shader.vert" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
