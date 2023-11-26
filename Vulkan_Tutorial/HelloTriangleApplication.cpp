@@ -483,6 +483,26 @@ void HelloTriangleApplication::createGraphicsPipeline()
 {
 	auto vertShaderCode = readFile("shaders/vert.spv");
 	auto fragShaderCode = readFile("shaders/frag.spv");
+
+	VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
+	VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
+
+	vkDestroyShaderModule(device, vertShaderModule, nullptr);
+	vkDestroyShaderModule(device, fragShaderModule, nullptr);
+
+	VkPipelineShaderStageCreateInfo vertShaderStageCI{};
+	vertShaderStageCI.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	vertShaderStageCI.stage = VK_SHADER_STAGE_VERTEX_BIT;
+	vertShaderStageCI.module = vertShaderModule;
+	vertShaderStageCI.pName = "main";
+
+	VkPipelineShaderStageCreateInfo fragShaderStageCI{};
+	fragShaderStageCI.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	fragShaderStageCI.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+	fragShaderStageCI.module = fragShaderModule;
+	fragShaderStageCI.pName = "main";
+
+	VkPipelineShaderStageCreateInfo shaderStages[]	= {vertShaderStageCI, fragShaderStageCI};
 }
 
 VkShaderModule HelloTriangleApplication::createShaderModule(vector<char>& code)
