@@ -27,13 +27,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="..\shaders\shader.frag">
+    <None Include="shaders\compile.bat">
       <Filter>シェーダ</Filter>
     </None>
-    <None Include="..\shaders\shader.vert">
+    <None Include="shaders\shader.frag">
       <Filter>シェーダ</Filter>
     </None>
-    <None Include="..\shaders\compile.bat">
+    <None Include="shaders\shader.vert">
       <Filter>シェーダ</Filter>
     </None>
   </ItemGroup>

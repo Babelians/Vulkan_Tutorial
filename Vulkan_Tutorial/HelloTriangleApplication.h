@@ -72,6 +72,15 @@ private:
 	bool checkValidationLayerSupport();
 	bool isDeviceSuitable(VkPhysicalDevice pDevice);
 	bool checkDeviceExtensionSupport(VkPhysicalDevice pDevice);
+
+
+	QueueFamilyIndices findQueueFamiles(VkPhysicalDevice pDevice);
+	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice pDevice);
+	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const vector<VkSurfaceFormatKHR>& availableFormats);
+	VkPresentModeKHR chooseSwapPresentMode(const vector<VkPresentModeKHR>& availablePresentModes);
+	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+	VkShaderModule createShaderModule(vector<char> &code);
+
 	static vector<char> readFile(const string& filename)
 	{
 		ifstream file(filename, ios::ate | ios::binary);
@@ -90,13 +99,6 @@ private:
 
 		return buffer;
 	}
-
-	QueueFamilyIndices findQueueFamiles(VkPhysicalDevice pDevice);
-	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice pDevice);
-	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const vector<VkSurfaceFormatKHR>& availableFormats);
-	VkPresentModeKHR chooseSwapPresentMode(const vector<VkPresentModeKHR>& availablePresentModes);
-	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
-	VkShaderModule createShaderModule(vector<char> &code);
 
 	GLFWwindow* window;
 	VkInstance instance;
