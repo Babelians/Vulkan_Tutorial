@@ -21,7 +21,7 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="HelloTriangleApplication.cpp">
+    <ClCompile Include="my_vulkan.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,7 +38,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HelloTriangleApplication.h">
+    <ClInclude Include="my_vulkan.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

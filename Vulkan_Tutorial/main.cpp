@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include "HelloTriangleApplication.h"
+#include "my_vulkan.h"
 
 using namespace std;
 using namespace glm;
@@ -17,7 +17,7 @@ using namespace glm;
 
 int main()
 {
-	HelloTriangleApplication app;
+	Vulkan app;
 
 	try {
 		app.run();

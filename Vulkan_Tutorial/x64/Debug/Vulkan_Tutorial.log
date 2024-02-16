@@ -1,2 +1,8 @@
-﻿  HelloTriangleApplication.cpp
-  Vulkan_Tutorial.vcxproj -> C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\x64\Debug\Vulkan_Tutorial.exe
+﻿  my_vulkan.cpp
+C:\Users\riel8\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(729,55): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+C:\Users\riel8\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(764,54): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+C:\Users\riel8\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(835,55): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+C:\Users\riel8\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(840,59): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+C:\Users\riel8\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(852,58): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+C:\Users\riel8\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(854,48): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+  Vulkan_Tutorial.vcxproj -> C:\Users\riel8\Documents\GitHub\Vulkan_Tutorial\x64\Debug\Vulkan_Tutorial.exe
