@@ -1,11 +1,9 @@
-﻿  main.cpp
-  my_vulkan.cpp
-C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(761,53): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
-C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(802,52): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
-C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(854,46): warning C4267: '引数': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
-C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(887,53): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
-C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(892,57): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
-C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(904,56): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
-C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(906,46): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
-  コードを生成中...
+﻿  my_vulkan.cpp
+C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(763,53): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(804,52): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(856,46): warning C4267: '引数': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(889,53): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(894,57): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(906,56): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
+C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\Vulkan_Tutorial\my_vulkan.cpp(908,46): warning C4267: '=': 'size_t' から 'uint32_t' に変換しました。データが失われているかもしれません。
   Vulkan_Tutorial.vcxproj -> C:\Users\yaega\Documents\GitHub\Vulkan_Tutorial\x64\Debug\Vulkan_Tutorial.exe

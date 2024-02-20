@@ -23,6 +23,14 @@
 #include <glm/glm.hpp>
 #include <array>
 
+#pragma comment(lib, "vulkan-1.lib")
+
+#ifdef NDEBUG
+const bool enableValidationLayers = false;
+#else
+const bool enableValidationLayers = true;
+#endif
+
 using namespace std;
 
 const uint32_t WIDTH = 800;
@@ -79,11 +87,12 @@ struct Vertex
 	}
 };
 
-#ifdef NDEBUG
-const bool enableValidationLayers = false;
-#else
-const bool enableValidationLayers = true;
-#endif
+struct UniformBufferObject
+{
+	glm::mat4 model;
+	glm::mat4 view;
+	glm::mat4 proj;
+};
 
 class Vulkan
 {
@@ -106,21 +115,22 @@ private:
 	void createRenderPass();
 	void createFrameBuffers();
 	void createCommandPools();
-	void createCommandPool(VkCommandPool *commandPool, uint32_t index);
+	void createCommandPool(VkCommandPool *pCommandPool, uint32_t queueIndex);
 	void createCommandBuffer();
 	void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 	void drawFrame();
 	void createSyncObjects();
 	void recreateSwapChain();
-	void createBuffer(size_t size, VkBuffer *buffer, VkDeviceMemory *deviceMemory, VkBufferUsageFlags usage, VkMemoryPropertyFlags props);
+	void createBuffer(size_t size, VkBuffer *pBuffer, VkDeviceMemory *pDeviceMemory, VkBufferUsageFlags usage, VkMemoryPropertyFlags props);
 	void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, size_t size);
-	void createVertexBuffer(void *data, size_t size);
-	void createIndexBuffer(void* data, size_t size);
+	void createVertexBuffer(void *pData, size_t size);
+	void createIndexBuffer(void *pData, size_t size);
+	void createDescriptorSetLayout();
 
 	bool checkValidationLayerSupport();
 	bool isDeviceSuitable(VkPhysicalDevice pDevice);
 	bool checkDeviceExtensionSupport(VkPhysicalDevice pDevice);
-	static void framebufferResizeCallback(GLFWwindow *window, int width, int height);
+	static void framebufferResizeCallback(GLFWwindow *pWindow, int width, int height);
 	uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
 
@@ -180,6 +190,7 @@ private:
 	VkDeviceMemory vertexBufferMemory;
 	VkBuffer indexBuffer;
 	VkDeviceMemory indexBufferMemory;
+	VkDescriptorSetLayout descriptorSetLayout;
 
 	vector<const char*> validationLayers = {
 		"VK_LAYER_KHRONOS_validation"

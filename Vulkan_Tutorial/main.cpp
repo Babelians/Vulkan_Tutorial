@@ -13,8 +13,6 @@
 using namespace std;
 using namespace glm;
 
-#pragma comment(lib, "vulkan-1.lib")
-
 int main()
 {
 	Vulkan app;
