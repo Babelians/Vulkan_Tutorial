@@ -38,7 +38,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="my_vulkan.h">
+    <ClInclude Include="my_vulkan.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
