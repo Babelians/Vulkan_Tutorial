@@ -43,13 +43,11 @@ struct QueueFamilyIndices
 {
 	optional<uint32_t> graphicsFamily;
 	optional<uint32_t> presentFamily;
-	optional<uint32_t> transferFamily;
 
 	bool isComplete()
 	{
 		return graphicsFamily.has_value() &&
-			   presentFamily.has_value()  &&
-			   transferFamily.has_value();
+			presentFamily.has_value();
 	}
 };
 
@@ -200,8 +198,7 @@ private:
 	VkPipelineLayout pipelineLayout;
 	VkPipeline pipeline;
 	vector<VkFramebuffer>swapChainFramebuffers;
-	VkCommandPool commandPool;
-	VkCommandPool transferPool;
+	VkCommandPool graphicsCmdPool;
 	vector<VkCommandPool>commandPools;
 	vector<VkCommandBuffer> commandBuffers;
 	vector<VkSemaphore> imageAvailableSemaphores;
